@@ -1154,28 +1154,28 @@ static NSDictionary* customCertificatesForHost;
   [wkWebViewConfig.userContentController removeAllUserScripts];
   [wkWebViewConfig.userContentController removeScriptMessageHandlerForName:MessageHandlerName];
   
-  NSString *html5HistoryAPIShimSource = [NSString stringWithFormat:
-    @"(function(history) {\n"
-    "  function notify(type) {\n"
-    "    setTimeout(function() {\n"
-    "      window.webkit.messageHandlers.%@.postMessage(type)\n"
-    "    }, 0)\n"
-    "  }\n"
-    "  function shim(f) {\n"
-    "    return function pushState() {\n"
-    "      notify('other')\n"
-    "      return f.apply(history, arguments)\n"
-    "    }\n"
-    "  }\n"
-    "  history.pushState = shim(history.pushState)\n"
-    "  history.replaceState = shim(history.replaceState)\n"
-    "  window.addEventListener('popstate', function() {\n"
-    "    notify('backforward')\n"
-    "  })\n"
-    "})(window.history)\n", HistoryShimName
-  ];
-  WKUserScript *script = [[WKUserScript alloc] initWithSource:html5HistoryAPIShimSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
-  [wkWebViewConfig.userContentController addUserScript:script];
+  // NSString *html5HistoryAPIShimSource = [NSString stringWithFormat:
+  //   @"(function(history) {\n"
+  //   "  function notify(type) {\n"
+  //   "    setTimeout(function() {\n"
+  //   "      window.webkit.messageHandlers.%@.postMessage(type)\n"
+  //   "    }, 0)\n"
+  //   "  }\n"
+  //   "  function shim(f) {\n"
+  //   "    return function pushState() {\n"
+  //   "      notify('other')\n"
+  //   "      return f.apply(history, arguments)\n"
+  //   "    }\n"
+  //   "  }\n"
+  //   "  history.pushState = shim(history.pushState)\n"
+  //   "  history.replaceState = shim(history.replaceState)\n"
+  //   "  window.addEventListener('popstate', function() {\n"
+  //   "    notify('backforward')\n"
+  //   "  })\n"
+  //   "})(window.history)\n", HistoryShimName
+  // ];
+  // WKUserScript *script = [[WKUserScript alloc] initWithSource:html5HistoryAPIShimSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+  // [wkWebViewConfig.userContentController addUserScript:script];
   
   if(_sharedCookiesEnabled) {
     // More info to sending cookies with WKWebView
